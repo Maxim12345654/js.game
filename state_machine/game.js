@@ -27,6 +27,7 @@ export class Game {
         this.layer4 = new BackgroundLayer(this, document.getElementById('layer-4'), 1.4);
         this.layer5 = new BackgroundLayer(this, document.getElementById('layer-5'), 1.8);
 
+        this.particles = [];
         this.enemies = [];
         this.enemyTimer = 0;
         this.enemyInterval = 1000;
@@ -60,7 +61,13 @@ export class Game {
                 this.enemies.splice(this.enemies.indexOf(enemy), 1);
             }
         });
-        console.log(this.enemies)
+        this.particles.forEach((particle) => {
+             particle.update();
+            if (particle.markForDeletion === true) {
+                this.particles.splice(this.particles.indexOf(particle), 1);
+            }
+        });
+        console.log(this.particles)
 
 
     }
@@ -73,6 +80,7 @@ export class Game {
         this.enemies.forEach((enemy) => { enemy.draw(); });
         this.ui.draw();
         this.player.draw();
+        this.particles.forEach((Particle) => { Particle.draw(); });
     }
     addEnemy() {
         this.enemies.push(new EnemyFly(this));

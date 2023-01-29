@@ -24,7 +24,7 @@ export class Player {
         this.frameX = 0;
         this.frameY = 0;
 
-        this.states = [new StandingLeft(), new StandingRight(), new SittingLeft(), new SittingRight(), new RunningLeft(), new RunningRight(), new JumpingLeft(), new JumpingRight(), new FallingLeft(), new FallingRight()];
+        this.states = [new StandingLeft(this.game), new StandingRight(this.game), new SittingLeft(this.game), new SittingRight(this.game), new RunningLeft(this.game), new RunningRight(this.game), new JumpingLeft(this.game), new JumpingRight(this.game), new FallingLeft(this.game), new FallingRight(this.game)];
         this.currentState = this.states[1];
 
         this.speed = 0;

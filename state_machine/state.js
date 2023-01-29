@@ -1,5 +1,5 @@
 import { Keys } from './inputHandler.js';
-
+import { Dust } from './particles/dust.js';
 export const states = {
     STANDING_LEFT: 0,
     STANDING_RIGHT: 1,
@@ -15,7 +15,9 @@ export const states = {
 }
 
 export class StandingLeft {
-    constructor() {
+    constructor(game) {
+        this.game = game;
+
         this.stateName = states.STANDING_LEFT;
         this.frameY = 1;
         this.numberOfFrames = 7;
@@ -36,7 +38,8 @@ export class StandingLeft {
 }
 
 export class StandingRight {
-    constructor() {
+    constructor(game) {
+        this.game = game;
         this.stateName = states.STANDING_RIGHT;
         this.frameY = 0;
         this.numberOfFrames = 7;
@@ -56,7 +59,8 @@ export class StandingRight {
 }
 
 export class SittingLeft {
-    constructor() {
+    constructor(game) {
+        this.game = game;
         this.stateName = states.SITTING_LEFT;
         this.frameY = 9;
         this.numberOfFrames = 5;
@@ -67,7 +71,7 @@ export class SittingLeft {
             return states.RUNNING_RIGHT;
         } else if (lastKey === Keys.KD_LEFT) {
             return states.RUNNING_LEFT;
-        }else if (lastKey === Keys.KD_UP) {
+        } else if (lastKey === Keys.KD_UP) {
             return states.RUNNING_LEFT;
         }
     }
@@ -78,7 +82,8 @@ export class SittingLeft {
 }
 
 export class SittingRight {
-    constructor() {
+    constructor(game) {
+        this.game = game;
         this.stateName = states.SITTING_RIGHT;
         this.frameY = 8;
         this.numberOfFrames = 5;
@@ -89,7 +94,7 @@ export class SittingRight {
             return states.RUNNING_LEFT;
         } else if (lastKey === Keys.KD_RIGHT) {
             return states.RUNNING_RIGHT;
-        }else if (lastKey === Keys.KD_UP) {
+        } else if (lastKey === Keys.KD_UP) {
             return states.RUNNING_RIGHT;
         }
     }
@@ -100,7 +105,8 @@ export class SittingRight {
 }
 
 export class RunningLeft {
-    constructor() {
+    constructor(game) {
+        this.game = game;
         this.stateName = states.RUNNING_LEFT;
         this.frameY = 7;
         this.numberOfFrames = 9;
@@ -121,20 +127,23 @@ export class RunningLeft {
 }
 
 export class RunningRight {
-    constructor() {
+    constructor(game) {
+        this.game = game;
         this.stateName = states.RUNNING_RIGHT;
         this.frameY = 6;
         this.numberOfFrames = 9;
     }
 
     getState(lastKey) {
+        this.game.particles.push(new Dust(this.game));
+     
         if (lastKey === Keys.KD_RIGHT) {
             return states.STANDING_RIGHT;
         } else if (lastKey === Keys.KD_DOWN) {
             return states.SITTING_RIGHT;
         } else if (lastKey === Keys.KD_LEFT) {
             return states.RUNNING_LEFT;
-        } else if (lastKey === Keys.KD_UP){
+        } else if (lastKey === Keys.KD_UP) {
             return states.JUMPING_RIGHT;
         }
     }
@@ -145,7 +154,8 @@ export class RunningRight {
 }
 
 export class JumpingLeft {
-    constructor() {
+    constructor(game) {
+        this.game = game;
         this.stateName = states.JUMPING_LEFT;
         this.frameY = 3;
         this.numberOfFrames = 7;
@@ -161,20 +171,21 @@ export class JumpingLeft {
     }
 }
 
-export class JumpingRight{
-    constructor() {
+export class JumpingRight {
+    constructor(game) {
+        this.game = game;
         this.stateName = states.JUMPING_RIGHT;
         this.frameY = 2;
         this.numberOfFrames = 7;
     }
 
     getState(lastKey, player) {
-        if(player.speedY > 0)
-        return states.FALLING_RIGHT
-       
+        if (player.speedY > 0)
+            return states.FALLING_RIGHT
+
     }
     getSpeed(player) {
-        if (player.isOnGround()){
+        if (player.isOnGround()) {
             player.speedY = player.speedY - 30
         }
         return player.maxSpeed * 0.5;
@@ -183,7 +194,8 @@ export class JumpingRight{
 
 
 export class FallingLeft {
-    constructor() {
+    constructor(game) {
+        this.game = game;
         this.stateName = states.FALLING_LEFT;
         this.frameY = 5;
         this.numberOfFrames = 7;
@@ -191,8 +203,8 @@ export class FallingLeft {
 
     getState(lastKey) {
 
-    } 
-    
+    }
+
     getSpeed(player) {
         return player.maxSpeed;
     }
@@ -200,7 +212,8 @@ export class FallingLeft {
 
 
 export class FallingRight {
-    constructor() {
+    constructor(game) {
+        this.game = game;
         this.stateName = states.FALLING_RIGHT;
         this.frameY = 4;
         this.numberOfFrames = 7;
