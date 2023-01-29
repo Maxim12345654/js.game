@@ -4,6 +4,7 @@ import { BackgroundLayer } from './background-layer.js';
 import { EnemyFly } from './enemies/enemy_fly.js';
 import { UI } from './ui.js';
 import { EnemySpiderBig } from './enemies/enemy_spider_big.js';
+import { EnemyPlant } from './enemies/enemy_plant.js';
 
 
 export class Game {
@@ -78,5 +79,8 @@ export class Game {
         if(Math.random() > 0.5 ) {
         this.enemies.push(new EnemySpiderBig(this));
         } 
+        if(Math.random() < 0.5 ) {
+            this.enemies.push(new EnemyPlant(this));
+            } 
     }
 } 
