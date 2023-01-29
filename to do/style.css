@@ -1,0 +1,52 @@
+#text{
+    width: 300px;
+    height: 30px;
+    background: #ffffff;
+    color: rgb(0, 0, 0);
+    border: 1.5px solid #000000;
+}
+#add{
+    height: 30px;
+    width: 30px;
+    background: #7f807f;
+    border: 1px solid #000000;
+    font-size: 15px;
+}
+.error{
+    color: red;
+}
+#container{
+    width: 250px;
+    margin: 15px auto 0 auto;
+}
+#add{
+    width: 30px;
+    height: 30px;
+}
+#text{
+    width:200px;
+    height:30px;
+}
+.cbx{
+    margin-left: 0;
+    margin-right: 10px;
+    display: block;
+}
+.btn{
+    background: pink;
+    margin-left:10px;
+    display:block;
+}
+.item-container{
+    margin-top: 10px;
+    display: flex;
+    align-items: flex-start;
+}
+.item-text{
+    display: block;
+    width: 200px;
+}
+#days{
+margin-top: 10;
+width: 228;
+}
