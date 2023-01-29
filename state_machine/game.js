@@ -34,7 +34,7 @@ export class Game {
         this.score = 0
 
         this.ui = new UI(this);
-
+       //1
        
 
 
