@@ -1,231 +1,200 @@
+
 import { Keys } from './inputHandler.js';
-import { Dust } from './particles/dust.js';
+
 export const states = {
-    STANDING_LEFT: 0,
-    STANDING_RIGHT: 1,
-    SITTING_LEFT: 2,
-    SITTING_RIGHT: 3,
-    RUNNING_LEFT: 4,
-    RUNNING_RIGHT: 5,
-    JUMPING_LEFT: 6,
-    JUMPING_RIGHT: 7,
-    FALLING_LEFT: 8,
-    FALLING_RIGHT: 9
-
+    STANDING_RIGHT: 0,
+    SITTING_RIGHT: 1,
+    RUNNING_RIGHT: 2,
+    JUMPING_RIGHT: 3,
+    FALLING_RIGHT: 4,
+    ROLLING_RIGHT: 5,
+    DIVING: 6,
+    HIT: 7
 }
 
-export class StandingLeft {
-    constructor(game) {
+export class State {
+    constructor(frameY, maxOfXFrames, stateName, game) {
+        this.frameY = frameY;
+        this.maxOfXFrames = maxOfXFrames;
+        this.stateName = stateName;
         this.game = game;
-
-        this.stateName = states.STANDING_LEFT;
-        this.frameY = 1;
-        this.numberOfFrames = 7;
     }
 
-    getState(lastKey) {
-        if (lastKey === Keys.KU_LEFT) {
-            return states.RUNNING_LEFT;
-        } else if (lastKey === Keys.KD_DOWN) {
-            return states.SITTING_LEFT;
-        }
-
-    }
-
-    getSpeed(player) {
+    getXSpeed() {
         return 0;
     }
 }
 
-export class StandingRight {
+export class StandingRight extends State {
     constructor(game) {
-        this.game = game;
-        this.stateName = states.STANDING_RIGHT;
-        this.frameY = 0;
-        this.numberOfFrames = 7;
+        super(0, 7, states.STANDING_RIGHT, game);
     }
 
-    getState(lastKey) {
-        if (lastKey === Keys.KU_RIGHT) {
+    getState(inputHandler) {
+        let keys = inputHandler.lastKey;
+        if (keys.indexOf(Keys.KD_RIGHT) === -1) { //TODO
             return states.RUNNING_RIGHT;
-        } else if (lastKey === Keys.KD_DOWN) {
+        }
+        else if (keys.indexOf(Keys.KD_DOWN) > -1) {
             return states.SITTING_RIGHT;
-        }
-    }
-
-    getSpeed(player) {
-        return 0;
-    }
-}
-
-export class SittingLeft {
-    constructor(game) {
-        this.game = game;
-        this.stateName = states.SITTING_LEFT;
-        this.frameY = 9;
-        this.numberOfFrames = 5;
-    }
-
-    getState(lastKey) {
-        if (lastKey === Keys.KD_RIGHT) {
-            return states.RUNNING_RIGHT;
-        } else if (lastKey === Keys.KD_LEFT) {
-            return states.RUNNING_LEFT;
-        } else if (lastKey === Keys.KD_UP) {
-            return states.RUNNING_LEFT;
-        }
-    }
-
-    getSpeed(player) {
-        return 0;
-    }
-}
-
-export class SittingRight {
-    constructor(game) {
-        this.game = game;
-        this.stateName = states.SITTING_RIGHT;
-        this.frameY = 8;
-        this.numberOfFrames = 5;
-    }
-
-    getState(lastKey) {
-        if (lastKey === Keys.KD_LEFT) {
-            return states.RUNNING_LEFT;
-        } else if (lastKey === Keys.KD_RIGHT) {
-            return states.RUNNING_RIGHT;
-        } else if (lastKey === Keys.KD_UP) {
-            return states.RUNNING_RIGHT;
-        }
-    }
-
-    getSpeed(player) {
-        return 0;
-    }
-}
-
-export class RunningLeft {
-    constructor(game) {
-        this.game = game;
-        this.stateName = states.RUNNING_LEFT;
-        this.frameY = 7;
-        this.numberOfFrames = 9;
-    }
-    getState(lastKey) {
-        if (lastKey === Keys.KD_RIGHT) {
-            return states.RUNNING_RIGHT;
-        } else if (lastKey === Keys.KD_DOWN) {
-            return states.SITTING_LEFT;
-        } else if (lastKey === Keys.KD_LEFT) {
-            return states.STANDING_LEFT;
-        }
-    }
-
-    getSpeed(player) {
-        return -player.maxSpeed;
-    }
-}
-
-export class RunningRight {
-    constructor(game) {
-        this.game = game;
-        this.stateName = states.RUNNING_RIGHT;
-        this.frameY = 6;
-        this.numberOfFrames = 9;
-    }
-
-    getState(lastKey) {
-        this.game.particles.push(new Dust(this.game));
-     
-        if (lastKey === Keys.KD_RIGHT) {
-            return states.STANDING_RIGHT;
-        } else if (lastKey === Keys.KD_DOWN) {
-            return states.SITTING_RIGHT;
-        } else if (lastKey === Keys.KD_LEFT) {
-            return states.RUNNING_LEFT;
-        } else if (lastKey === Keys.KD_UP) {
+        } else if (keys.indexOf(Keys.KD_UP) > -1) {
             return states.JUMPING_RIGHT;
         }
     }
-
-    getSpeed(player) {
-        return player.maxSpeed;
-    }
-}
-
-export class JumpingLeft {
-    constructor(game) {
-        this.game = game;
-        this.stateName = states.JUMPING_LEFT;
-        this.frameY = 3;
-        this.numberOfFrames = 7;
-    }
-
-    getState(lastKey) {
-
-    }
-
-
-    getSpeed(player) {
-        return player.maxSpeed;
-    }
-}
-
-export class JumpingRight {
-    constructor(game) {
-        this.game = game;
-        this.stateName = states.JUMPING_RIGHT;
-        this.frameY = 2;
-        this.numberOfFrames = 7;
-    }
-
-    getState(lastKey, player) {
-        if (player.speedY > 0)
-            return states.FALLING_RIGHT
-
-    }
-    getSpeed(player) {
-        if (player.isOnGround()) {
-            player.speedY = player.speedY - 30
-        }
-        return player.maxSpeed * 0.5;
-    }
 }
 
 
-export class FallingLeft {
+
+export class SittingRight extends State {
     constructor(game) {
-        this.game = game;
-        this.stateName = states.FALLING_LEFT;
-        this.frameY = 5;
-        this.numberOfFrames = 7;
+        super(5, 5, states.SITTING_RIGHT, game);
     }
 
-    getState(lastKey) {
-
-    }
-
-    getSpeed(player) {
-        return player.maxSpeed;
-    }
-}
-
-
-export class FallingRight {
-    constructor(game) {
-        this.game = game;
-        this.stateName = states.FALLING_RIGHT;
-        this.frameY = 4;
-        this.numberOfFrames = 7;
-    }
-
-    getState(lastKey, player) {
-        if (player.isOnGround()) {
+    getState(inputHandler) {
+        let keys1 = inputHandler.lastKey;
+        if (keys1.indexOf(Keys.KD_UP) > -1) {
+            return states.RUNNING_RIGHT;
+        } else if (keys1.indexOf(Keys.KD_RIGHT) > -1) {
             return states.RUNNING_RIGHT;
         }
+    }
+}
+
+export class RunningRight extends State {
+    constructor(game) {
+        super(3, 9, states.RUNNING_RIGHT, game);
+    }
+
+    getXSpeed() {
+
+        return this.game.player.maxSpeed;
+    }
+
+    getState(inputHandler) {
+        this.game.addDustParticle();
+        let keys = inputHandler.lastKey;
+        if (keys.indexOf(Keys.KD_UP) > -1) {
+            return states.JUMPING_RIGHT;
+        } else if (keys.indexOf(Keys.KD_RIGHT) > -1) {
+            return states.STANDING_RIGHT;
+        } else if (keys.indexOf(Keys.KD_DOWN) > -1) {
+            return states.SITTING_RIGHT;
+        } else if (keys.indexOf(Keys.KD_ENTER) > -1) {
+            return states.ROLLING_RIGHT;
+
+        }
+    }
+}
+
+
+export class JumpingRight extends State {
+    constructor(game) {
+        super(1, 7, states.JUMPING_RIGHT, game);
+    }
+
+    getXSpeed() {
+
+        if (this.game.player.onGround()) {
+            this.game.player.decreaseVY();
+        }
+        return this.game.player.maxSpeed;
 
     }
-    getSpeed(player) {
-        return player.maxSpeed;
+
+
+    getState(inputHandler) {
+        let keys = inputHandler.lastKey;
+        if (this.game.player.speedY > 0) {
+            return states.FALLING_RIGHT;
+        } else if (keys.indexOf(Keys.KD_ENTER) > -1) {
+            return states.ROLLING_RIGHT;
+        } else if (keys.indexOf(Keys.KD_DOWN) > -1) {
+            return states.DIVING;
+        }
+    }
+}
+
+
+
+export class FallingRight extends State {
+    constructor(game) {
+        super(2, 7, states.FALLING_RIGHT, game);
+    }
+
+
+    getState(inputHandler) {
+        let keys = inputHandler.lastKey;
+        if (this.game.player.onGround()) {
+            return states.RUNNING_RIGHT;
+        } else if (keys.indexOf(Keys.KD_ENTER) > -1) {
+            return states.ROLLING_RIGHT;
+        } else if (keys.indexOf(Keys.KD_DOWN) > -1) {
+            return states.DIVING;
+        }
+    }
+
+    getXSpeed() {
+        return this.game.player.maxSpeed;
+    }
+}
+
+
+
+export class RollingRight extends State {
+    constructor(game) {
+        super(6, 7, states.ROLLING_RIGHT, game);
+    }
+
+
+    getState(inputHandler) {
+
+        this.game.addFireParticle();
+        let keys = inputHandler.lastKey;
+        if (keys.indexOf(Keys.KD_ENTER) === -1 && this.game.player.onGround()) {
+            return states.RUNNING_RIGHT;
+        } else if (keys.indexOf(Keys.KD_ENTER) > -1 && keys.indexOf(Keys.KD_UP) > -1) {
+            if (this.game.player.onGround()) {
+                this.game.player.decreaseVY();
+            }
+        }
+    }
+
+    getXSpeed() {
+        return this.game.player.maxSpeed * 2;
+    }
+}
+
+export class Diving extends State {
+    constructor(game) {
+        super(6, 7, states.DIVING, game);
+
+    }
+    getState(inputHandler) {
+         this.game.addFireParticle();
+        let keys = inputHandler.lastKey;;
+        if (keys.indexOf(Keys.KD_ENTER) === -1 && this.game.player.onGround()) {
+            //     for (let i = 0; i < 1; i++) {
+            //         this.game.addSplashParticle();
+            //     }
+            return states.RUNNING_RIGHT;
+        } else if (keys.indexOf(Keys.KD_ENTER) > -1 && this.game.player.onGround()) {
+            return states.ROLLING_RIGHT;
+        }
+    }
+}
+// speedY
+export class Hit extends State {
+    constructor(game) {
+        super(4, 11, states.HIT, game);
+    }
+
+    getState(inputHandler) {
+        // let keys = inputHandler.lastKey;;
+        if (this.game.player.onGround() && this.game.player.frameX === 9) {
+
+            return states.RUNNING_RIGHT;
+        } else if (!this.game.player.onGround()) {
+            return states.FALLING_RIGHT;
+        }
     }
 }

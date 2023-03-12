@@ -44,7 +44,7 @@ if(canvas.getContext){
     
 
 }else {
-    console.log('canvas is not supported');
+    //console.log('canvas is not supported');
 }
 let position = 0;
 const factor = 5;
@@ -54,7 +54,7 @@ function animate(){
     
 position = Math.floor(frame / factor) % 7;
 
- console.log(position); 
+ //console.log(position); 
 
      if(position === 6){
         position = 0;

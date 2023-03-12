@@ -54,7 +54,7 @@ function createItem() {
      btn.addEventListener('click', function (event) {
           const div = event.target.closest('div');
           itemsContainer.removeChild(div);
-          console.log(event);
+         // console.log(event);
      });
 
      div.appendChild(btn);

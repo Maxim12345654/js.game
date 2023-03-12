@@ -5,7 +5,8 @@ import { EnemyFly } from './enemies/enemy_fly.js';
 import { UI } from './ui.js';
 import { EnemySpiderBig } from './enemies/enemy_spider_big.js';
 import { EnemyPlant } from './enemies/enemy_plant.js';
-
+import {Dust} from'./particles/dust.js';
+import {Fire} from'./particles/fire.js';
 
 export class Game {
     constructor(canvas, ctx) {
@@ -43,7 +44,7 @@ export class Game {
     }
 
     update() {
-        this.player.update(this.inputHandler.lastKey);
+        this.player.update(this.inputHandler);
         this.layer1.update();
         this.layer2.update();
         this.layer3.update();
@@ -67,7 +68,10 @@ export class Game {
                 this.particles.splice(this.particles.indexOf(particle), 1);
             }
         });
-        console.log(this.particles)
+        if (this.particles.length > 50){ 
+            this.particles.slice(0, 50);
+        }
+        //(this.particles)
 
 
     }
@@ -80,15 +84,23 @@ export class Game {
         this.enemies.forEach((enemy) => { enemy.draw(); });
         this.ui.draw();
         this.player.draw();
-        this.particles.forEach((Particle) => { Particle.draw(); });
+        this.particles.forEach((particle) => { particle.draw(); });
     }
     addEnemy() {
         this.enemies.push(new EnemyFly(this));
-        if(Math.random() > 0.5 ) {
-        this.enemies.push(new EnemySpiderBig(this));
-        } 
-        if(Math.random() < 0.5 ) {
-            this.enemies.push(new EnemyPlant(this));
+        if (this.gameSpeed > 0){
+            if(Math.random() > 0.5 ) {
+            this.enemies.push(new EnemySpiderBig(this));
             } 
+            if(Math.random() < 0.5 ) {
+                this.enemies.push(new EnemyPlant(this));
+            } 
+        }
+    }
+    addDustParticle(){
+        this.particles.unshift(new Dust(this));  //to remove only old particles
+    }
+    addFireParticle(){
+        this.particles.unshift(new Fire(this));
     }
 } 

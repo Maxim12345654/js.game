@@ -19,7 +19,7 @@ function init(){
         context.fillRect(100, 100, 300, 300);
 
          canvas.addEventListener('click', function(event){
-            console.log(event);
+          //  console.log(event);
             drawCircle(context)
 
         });
@@ -49,7 +49,7 @@ function init(){
 
 
     } else {
-        console.log('canvas is not supported');
+       // console.log('canvas is not supported');
     }
 }
 

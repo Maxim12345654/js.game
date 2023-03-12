@@ -23,7 +23,7 @@ window.addEventListener('load', function(){
  
     
     } else {
-        console.log('canvas is not supported');
+       // console.log('canvas is not supported');
     }
 
     function animate() {
