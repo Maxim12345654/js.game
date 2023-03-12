@@ -1,9 +1,10 @@
 
+import { CollisionAnimation } from "./collisionAnimation.js";
 import { InputHandler } from "./inputHandler.js";
-import { StandingRight,SittingRight, RunningRight,JumpingRight,FallingRight, RollingRight, Diving, Hit } from "./state.js";
+import { StandingRight, SittingRight, RunningRight, JumpingRight, FallingRight, RollingRight, Diving, Hit, states } from "./state.js";
 
 
-export class Player { 
+export class Player {
 
     constructor(game) {
         this.gameWidth = game.canvas.width;
@@ -25,7 +26,7 @@ export class Player {
         this.frameX = 0;
         this.frameY = 0;
 
-        this.states = [new StandingRight(this.game),new SittingRight(this.game),new RunningRight(this.game), new JumpingRight(this.game),new FallingRight(this.game), new RollingRight(this.game),new Diving(this.game), new Hit(this.game)];
+        this.states = [new StandingRight(this.game), new SittingRight(this.game), new RunningRight(this.game), new JumpingRight(this.game), new FallingRight(this.game), new RollingRight(this.game), new Diving(this.game), new Hit(this.game)];
         this.currentState = this.states[1];
 
         this.speed = 0;
@@ -52,7 +53,7 @@ export class Player {
         const state = this.states.find((state) => {
             return state.stateName === stateName;
         });
-        console.log(state)
+        // console.log(state)
         //set the currnet frames row
         this.frameY = state.frameY;
 
@@ -110,7 +111,25 @@ export class Player {
                 this.y + this.height > enemy.y) {
                 enemy.markForDeletion = true;
                 this.game.score += 1;
+                this.game.collisions.push(new CollisionAnimation(this.game, enemy.x + enemy.width / 2, enemy.y + enemy.height / 2));
+                if(!(this.currentState instanceof RollingRight) || !(this.currentState instanceof Diving) ){
+                   this.index = 0;
+                   this.speedY = 1;
+                    const state = this.states.find((state) => {
+                        return state.stateName === states.HIT;
+                    });
+            
+            
+                    this.frameY = state.frameY;           
+                    this.currentState = state;
+            
+                    //get a speed of the current state
+                    this.speed = this.currentState.getXSpeed(this);
+                    this.game.gameSpeed = this.speed;
+            
+                }
             }
+
         })
     }
     decreaseVY() {

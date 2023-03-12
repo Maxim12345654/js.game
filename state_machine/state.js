@@ -170,12 +170,12 @@ export class Diving extends State {
 
     }
     getState(inputHandler) {
-         this.game.addFireParticle();
+        this.game.addFireParticle();
         let keys = inputHandler.lastKey;;
         if (keys.indexOf(Keys.KD_ENTER) === -1 && this.game.player.onGround()) {
-            //     for (let i = 0; i < 1; i++) {
-            //         this.game.addSplashParticle();
-            //     }
+            for (let i = 0; i < 30; i++) {
+                this.game.addSplashParticle();
+            }
             return states.RUNNING_RIGHT;
         } else if (keys.indexOf(Keys.KD_ENTER) > -1 && this.game.player.onGround()) {
             return states.ROLLING_RIGHT;

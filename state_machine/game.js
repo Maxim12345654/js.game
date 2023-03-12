@@ -7,12 +7,14 @@ import { EnemySpiderBig } from './enemies/enemy_spider_big.js';
 import { EnemyPlant } from './enemies/enemy_plant.js';
 import {Dust} from'./particles/dust.js';
 import {Fire} from'./particles/fire.js';
+import {Splash} from'./particles/splash.js';
+import {CollisionAnimation} from'./collisionAnimation.js';
 
 export class Game {
     constructor(canvas, ctx) {
         this.canvas = canvas;
         this.ctx = ctx;
-        this.gameSpeed = 10;
+        this.gameSpeed = 3;
         this.gameWidth = this.canvas.width;
         this.gameHeight = this.canvas.height;
 
@@ -28,6 +30,7 @@ export class Game {
         this.layer4 = new BackgroundLayer(this, document.getElementById('layer-4'), 1.4);
         this.layer5 = new BackgroundLayer(this, document.getElementById('layer-5'), 1.8);
 
+        this.collisions = [];
         this.particles = [];
         this.enemies = [];
         this.enemyTimer = 0;
@@ -67,11 +70,20 @@ export class Game {
             if (particle.markForDeletion === true) {
                 this.particles.splice(this.particles.indexOf(particle), 1);
             }
+            
         });
+
         if (this.particles.length > 50){ 
             this.particles.slice(0, 50);
         }
         //(this.particles)
+        this.collisions.forEach((collision) => {
+            collision.update();
+           if (collision.markForDeletion === true) {
+            let toDelete = this.collisions.indexOf(collision);
+               this.collisions.splice(toDelete, 1);
+           }
+       });
 
 
     }
@@ -85,6 +97,7 @@ export class Game {
         this.ui.draw();
         this.player.draw();
         this.particles.forEach((particle) => { particle.draw(); });
+        this.collisions.forEach((collision) => { collision.draw(); });
     }
     addEnemy() {
         this.enemies.push(new EnemyFly(this));
@@ -102,5 +115,8 @@ export class Game {
     }
     addFireParticle(){
         this.particles.unshift(new Fire(this));
+    }
+    addSplashParticle(){
+        this.particles.unshift(new Splash(this));
     }
 } 

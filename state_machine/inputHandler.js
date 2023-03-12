@@ -72,6 +72,11 @@ export class InputHandler {
                         this.lastKey.splice(this.lastKey.indexOf(Keys.KD_UP), 1);
                     }
                     break;
+                    case "Enter":
+                        if (this.lastKey.indexOf(Keys.KD_ENTER) > -1) {
+                            this.lastKey.splice(this.lastKey.indexOf(Keys.KD_ENTER), 1);
+                        }
+                        break;
             }
         });
 
