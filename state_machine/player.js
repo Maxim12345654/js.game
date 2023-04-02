@@ -39,6 +39,9 @@ export class Player {
         this.speedY = 0;
         this.weight = 1;
 
+        this.sound = new Audio();
+        this.sound.src = './sounds/wow.wav';
+
     }
 
     update(inputHandler) {
@@ -110,9 +113,9 @@ export class Player {
                 this.y < enemy.y + enemy.height &&
                 this.y + this.height > enemy.y) {
                 enemy.markForDeletion = true;
-                this.game.score += 1;
+               
                 this.game.collisions.push(new CollisionAnimation(this.game, enemy.x + enemy.width / 2, enemy.y + enemy.height / 2));
-                if(!(this.currentState instanceof RollingRight) || !(this.currentState instanceof Diving) ){
+                if(!(this.currentState instanceof RollingRight) && !(this.currentState instanceof Diving) ){
                    this.index = 0;
                    this.speedY = 1;
                     const state = this.states.find((state) => {
@@ -127,6 +130,13 @@ export class Player {
                     this.speed = this.currentState.getXSpeed(this);
                     this.game.gameSpeed = this.speed;
             
+                }
+                else if(this.currentState instanceof RollingRight){ 
+                    this.game.score += 1;
+                }
+                else if(this.currentState instanceof Diving){
+                    this.game.score += 10;
+                    this.sound.play();
                 }
             }
 

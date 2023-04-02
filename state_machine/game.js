@@ -37,8 +37,11 @@ export class Game {
         this.enemyInterval = 1000;
         this.enemyIndex = 15;
 
-        this.score = 0
-
+        this.time = 0;
+        this.maxTime = 300;
+        this.gameOver = false;
+        this.score = 0;
+        this.counter = 0;
         this.ui = new UI(this);
        //1
        
@@ -47,6 +50,13 @@ export class Game {
     }
 
     update() {
+        this.counter += 1;
+        if (this.counter % 60 === 0)[
+            this.time += 1
+        ];
+        if (this.time === this.maxTime){
+            this.gameOver = true;
+        }
         this.player.update(this.inputHandler);
         this.layer1.update();
         this.layer2.update();

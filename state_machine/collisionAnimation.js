@@ -16,13 +16,16 @@ export class CollisionAnimation{
         this.animationSpeedModifier = 5;
         this.frameX = 0;
         this.frameY = 0;
-        
+        this.sound = new Audio();
+        this.sound.src = './sounds/crash.wav';
+    
 
     }
     update(){
         this.frameX = Math.floor(this.index / this.animationSpeedModifier) % this.maxOfXFrames;
         this.index = this.index + 1;
         this.x -= this.game.gameSpeed;
+        this.sound.play();
 
         
         if (this.frameX === this.maxOfXFrames - 1) {

@@ -167,7 +167,7 @@ export class RollingRight extends State {
 export class Diving extends State {
     constructor(game) {
         super(6, 7, states.DIVING, game);
-
+       
     }
     getState(inputHandler) {
         this.game.addFireParticle();
